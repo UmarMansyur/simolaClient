@@ -83,12 +83,12 @@ export default function EventCalendar({
                   />
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="jenis_surat">Jenis Penyewaan: </label>
+                  <label htmlFor="jenis_surat">Jenis Peminjaman: </label>
                   <input
                     type="text"
                     className="form-control"
                     id="jenis_surat"
-                    placeholder="Jenis Penyewaan"
+                    placeholder="Jenis Peminjaman"
                     name="jenis_surat"
                     disabled
                   />

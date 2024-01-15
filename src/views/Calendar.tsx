@@ -40,11 +40,11 @@ export default function Calendar() {
                   <div className="d-grid">
                     {getUser().role == "Administrator" ? (
                       <Link
-                        to={"/penyewaan/create"}
+                        to={"/peminjaman/create"}
                         className="btn font-16 btn-warning"
                       >
                         <i className="mdi mdi-plus-circle-outline" /> Tambah
-                        Penyewaan
+                        Peminjaman
                       </Link>
                     ) : (
                       <button className="btn btn-info">Informasi</button>

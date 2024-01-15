@@ -23,9 +23,11 @@ export default function FormLogin() {
       loginBtn!.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
       // lakukan proses login
       const response = await isAuthorized(values);
+      loginBtn?.classList.remove("disabled");
+      loginBtn!.innerHTML = `<i class="bx bxs-lock-open"></i> Login`;
+      
       if (response) {
         navigate("/");
-    
       }
     },
   });

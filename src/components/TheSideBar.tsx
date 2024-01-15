@@ -22,7 +22,10 @@ export default function TheSideBar() {
                 width={90}
               />
               <h5 className="mt-3 mb-1 text-white">{user.name}</h5>
-              <p className="text-white font-size-14" style={{ textTransform: "uppercase" }}>
+              <p
+                className="text-white font-size-14"
+                style={{ textTransform: "uppercase" }}
+              >
                 {user.role}
               </p>
               <hr className="text-white" />
@@ -36,16 +39,18 @@ export default function TheSideBar() {
 
             <li
               className={
-                location.pathname.includes("penyewaan")
-                  ? "mm-active"
-                  : "" || user.role === "Administrator"
-                  ? ""
-                  : "d-none"
+                location.pathname.includes("peminjaman") ? "mm-active" : ""
               }
             >
-              <Link to="/penyewaan">
+              <Link
+                to={
+                  user.role !== "Mahasiswa"
+                    ? "/peminjaman"
+                    : "/peminjaman/mahasiswa"
+                }
+              >
                 <i data-feather="feather"></i>
-                <span data-key="t-mail">Penyewaan</span>
+                <span data-key="t-mail">Peminjaman</span>
               </Link>
             </li>
 
@@ -62,7 +67,11 @@ export default function TheSideBar() {
 
             <li
               className={
-                location.pathname.includes("settings") ? "mm-active" : "" || user.role === "Administrator" ? '' : 'd-none'
+                location.pathname.includes("settings")
+                  ? "mm-active"
+                  : "" || user.role === "Kepala Bagian Umum"
+                  ? ""
+                  : "d-none"
               }
             >
               <a href="#" className="has-arrow">

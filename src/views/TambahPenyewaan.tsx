@@ -6,6 +6,7 @@ import useFlatPicker from "../utils/useFlatPicker";
 import useBooking from "../utils/useBooking";
 import UseApi from "../composables/UseApi";
 import Flatpickr from "react-flatpickr";
+import { useSelector } from "react-redux";
 
 export default function TambahPenyewaan() {
   const { options } = useFlatPicker();
@@ -14,7 +15,7 @@ export default function TambahPenyewaan() {
   useEffect(() => {
     getMobil();
     getAula();
-    document.title = "Tambah Penyewaan";
+    document.title = "Tambah Peminjaman";
   }, []);
 
   const [mobil, setMobil] = useState<any>([]);
@@ -37,7 +38,7 @@ export default function TambahPenyewaan() {
 
   return (
     <Home>
-      <TheBreadCrumb title="Tambah Penyewaan"  />
+      <TheBreadCrumb title="Tambah Peminjaman"  />
       <BackButton></BackButton>
 
       <div className="row">
@@ -48,8 +49,8 @@ export default function TambahPenyewaan() {
                 <div className="col-12">
                   <div className="alert alert-top-border alert-warning">
                     <p className="mb-3">
-                      Setelah menambahkan penyewaan, data yang disimpan akan
-                      ditampilkan pada halaman penyewaan dan dapat dilihat
+                      Setelah menambahkan peminjaman, data yang disimpan akan
+                      ditampilkan pada halaman peminjaman dan dapat dilihat
                       dimenu kalender.
                     </p>
                   </div>
@@ -115,7 +116,7 @@ export default function TambahPenyewaan() {
                 </div>
                 <div className="col-md-6 mb-3">
                   <label htmlFor="jenis_surat" className="form-label">
-                    Jenis Penyewaan:
+                    Jenis Peminjaman:
                   </label>
                   <select
                     name="jenis_surat"
@@ -124,7 +125,7 @@ export default function TambahPenyewaan() {
                     value={formik.values.jenis_surat}
                     onChange={formik.handleChange}
                   >
-                    <option value="">Pilih Jenis Penyewaan</option>
+                    <option value="">Pilih Jenis Peminjaman</option>
                     {mobil.map((item: any, index: any) => (
                       <option value={`mobil-${item.merk}`} key={index}>
                         Mobil - {item.merk}
@@ -181,7 +182,7 @@ export default function TambahPenyewaan() {
                       formik.isSubmitting || !formik.isValid || !formik.dirty
                     }
                   >
-                    <i className="bx bx-send"></i> Simpan Penyewaan
+                    <i className="bx bx-send"></i> Simpan Peminjaman
                   </button>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import Modal from "../components/Modal";
 import * as yup from "yup";
 import useCar from "../utils/useCar";
 import { useEffect } from "react";
+import { convertToNominal, splitNumber } from "../helpers/event";
 export default function FormCar({ values, clearFormik, setLoading }: any) {
   const { storeCar } = useCar();
 
@@ -23,7 +24,8 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
       status: true,
     },
     validationSchema: schema,
-    onSubmit: async (values, actions) => {
+    onSubmit: async (values:any, actions) => {
+      values.kapasitas = convertToNominal(values.kapasitas.toString() || "0");
       await storeCar(values);
       actions.resetForm();
       actions.setSubmitting(false);
@@ -33,6 +35,7 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
 
   useEffect(() => {
     if (values) {
+      values.kapasitas = convertToNominal(values.kapasitas.toString() || "0");
       formik.setValues(values);
     }
   }, [values]);
@@ -53,6 +56,7 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
             className="form-control"
             id="merk"
             name="merk"
+            placeholder="Merk Mobil"
             value={formik.values.merk}
             onChange={formik.handleChange}
           />
@@ -60,11 +64,12 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
         <div className="col-12 mb-3">
           <label htmlFor="kapasitas">Kapasitas Penumpang:</label>
           <input
-            type="number"
+            type="text"
             className="form-control"
             id="kapasitas"
             name="kapasitas"
-            value={formik.values.kapasitas}
+            placeholder="Kapasitas Penumpang"
+            value={formik.values.kapasitas ? splitNumber(formik.values.kapasitas.toString()) : ""}
             onChange={formik.handleChange}
           />
         </div>
@@ -75,6 +80,7 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
             className="form-control"
             id="plat_nomer"
             name="plat_nomer"
+            placeholder="Plat Nomor"
             value={formik.values.plat_nomer}
             onChange={formik.handleChange}
           />
@@ -85,13 +91,15 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
             type="text"
             name="warna"
             id="warna"
+            placeholder="Warna"
             className="form-control"
             value={formik.values.warna}
             onChange={formik.handleChange}
           />
         </div>
         <div className="col-12 mb-3">
-          <div className="form-check form-switch form-switch-md mb-3" dir="ltr">
+          <label htmlFor="status">Status Ketersediaan: </label>
+          <div className="form-check form-switch mb-3" dir="ltr">
             <input
               type="checkbox"
               className="form-check-input"
@@ -100,9 +108,6 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
               checked={formik.values.status}
               onChange={(e) => formik.setFieldValue("status", e.target.checked)}
             />
-            <label className="form-check-label" htmlFor="status">
-              Status
-            </label>
           </div>
         </div>
         <div className="col-12 mb-3">

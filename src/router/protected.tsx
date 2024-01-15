@@ -1,6 +1,5 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import useValidUser from "../hooks/useValidUser";
+import { Navigate } from "react-router-dom";
 interface typeRoutes {
   redirectPath?: string;
   children?: React.ReactNode;
@@ -9,14 +8,12 @@ interface typeRoutes {
 
 
 
-const ProtectedRoute = ({ children, redirectPath = "/login", isAdmin }: typeRoutes) => {
+const ProtectedRoute = ({ children, redirectPath = "/login" }: typeRoutes) => {
   if (!sessionStorage.getItem("token")) {
     return <Navigate to={redirectPath} replace />;
   }
-  if(isAdmin && !useValidUser()) {
-    return <Navigate to={redirectPath} replace />;
-  }
-  return children ? children : <Outlet />;
+
+  return children;
 };
 
 export default ProtectedRoute;

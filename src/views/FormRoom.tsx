@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import useRoom from "../utils/useRoom";
 import { useEffect } from "react";
+import { convertToNominal, splitNumber } from "../helpers/event";
 interface Props {
   values: any;
   clearFormik: boolean;
@@ -41,7 +42,7 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
         id: values.id,
         nama: values.nama,
         status: Number(values.status),
-        kapasitas: values.kapasitas,
+        kapasitas: convertToNominal(values.kapasitas.toString() || "0"),
         lokasi: values.lokasi,
         deskripsi: values.deskripsi,
       };
@@ -56,7 +57,7 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
   }, [clearFormik]);
 
   return (
-    <Modal title="Tambah Gedung/Aula">
+    <Modal title={ values ? "Edit Gedung/Aula" : "Tambah Gedung/Aula" }>
       <div className="row">
         <div className="col-12 mb-3">
           <label htmlFor="nama">Nama Gedung/Aula:</label>
@@ -65,28 +66,31 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
             className="form-control"
             id="nama"
             name="nama"
+            placeholder="Nama Gedung/Aula"
             value={formik.values.nama}
             onChange={formik.handleChange}
           />
         </div>
-        <div className="col-12 mb-3">
+        <div className="col-6 mb-3">
           <label htmlFor="kapasitas">Kapasitas Ruang:</label>
           <input
-            type="number"
+            type="string"
             className="form-control"
             id="kapasitas"
             name="kapasitas"
-            value={formik.values.kapasitas}
+            placeholder="Kapasitas Ruang"
+            value={splitNumber(formik.values.kapasitas ? formik.values.kapasitas.toString() : "")}
             onChange={formik.handleChange}
           />
         </div>
-        <div className="col-12 mb-3">
+        <div className="col-6 mb-3">
           <label htmlFor="lokasi">Lokasi:</label>
           <input
             type="text"
             className="form-control"
             id="lokasi"
             name="lokasi"
+            placeholder="Lokasi"
             value={formik.values.lokasi}
             onChange={formik.handleChange}
           />
@@ -97,13 +101,15 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
             className="form-control"
             id="deskripsi"
             name="deskripsi"
+            placeholder="Deskripsi"
             rows={5}
             value={formik.values.deskripsi}
             onChange={formik.handleChange}
           ></textarea>
         </div>
         <div className="col-12">
-          <div className="form-check form-switch form-switch-md mb-3" dir="ltr">
+          <label htmlFor="status">Status:</label>
+          <div className="form-check form-switch mb-3" dir="ltr">
             <input
               type="checkbox"
               className="form-check-input"
@@ -112,9 +118,6 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
               checked={formik.values.status}
               onChange={(e) => formik.setFieldValue("status", e.target.checked)}
             />
-            <label className="form-check-label" htmlFor="status">
-              Status
-            </label>
           </div>
         </div>
         <div className="col-12 mb-3">

@@ -34,7 +34,7 @@ export default function App({ children }: Props) {
       setUser({
         id: me.id,
         name: me.name,
-        role: "Administrator",
+        role: me.role,
         thumbnail: me.thumbnail,
       })
     );

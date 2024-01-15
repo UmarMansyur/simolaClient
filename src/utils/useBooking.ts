@@ -4,6 +4,7 @@ import UseApi from '../composables/UseApi';
 import moment from 'moment';
 import Notify from '../helpers/Notify';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 export default function useBooking() {
   const navigate = useNavigate();
   const { postResourceFile, getResource, deleteResource } = UseApi();
@@ -35,14 +36,14 @@ export default function useBooking() {
       const response = await storeBooking(result);
       setFieldValue.resetForm();
       Notify.success(response.message);
-      navigate('/penyewaan', { replace: true });
+      navigate('/peminjaman', { replace: true });
     }
   });
 
   const storeBooking = async (data: any) => {
     const response = data.id != '' && data.id != undefined ? await postResourceFile(`penyewaan/${data.id}`, data) : await postResourceFile('penyewaan', data);
     if(!response) {
-      navigate('/penyewaan', {replace: true})
+      navigate('/peminjaman', {replace: true})
       return;
     }
     return response;
@@ -63,6 +64,8 @@ export default function useBooking() {
     return result;
   };
 
+  const user = useSelector((state: any) => state.user);
+
   const formatedData = (v: any) => {
     let result: any = {
       id: v.id != '' ? v.id : null,
@@ -74,7 +77,20 @@ export default function useBooking() {
       type: v.jenis_surat.split('-')[0],
       tanggal_mulai: moment(v.tanggal_mulai).format('YYYY-MM-DD HH:mm:ss'),
       tanggal_selesai: moment(v.tanggal_selesai).format('YYYY-MM-DD HH:mm:ss'),
+      status: 'Menunggu Persetujuan',
     };
+
+    
+    if(user.role === 'Kepala Biro Administrasi Umum' && result.status === 'Menunggu Persetujuan') {
+      result.status = 'Disetujui BAU';
+      result.tanggal_persetujuan_bau = moment(new Date()).format('YYYY-MM-DD');
+    }
+
+    if(user.role === 'Kepala Bagian Umum' && (result.status === 'Disetujui BAU' || result.status === 'Menunggu Persetujuan')) {
+      result.status = 'Disetujui Kepala Bagian Umum';
+      result.tanggal_persetujuan_bau = moment(new Date()).format('YYYY-MM-DD');
+      result.tanggal_persetujuan_kepala_bagian_umum = moment(new Date()).format('YYYY-MM-DD');
+    }
     
     if (typeof (v.lampiran) != 'string' && v.lampiran != undefined) {
       result.lampiran = v.lampiran;

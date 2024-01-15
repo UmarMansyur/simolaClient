@@ -4,7 +4,7 @@ import useBooking from "../utils/useBooking";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
-export default function ListPengajuan({ result, setLoading }: any) {
+export default function ListPengajuanStudent({ result, setLoading }: any) {
   const { deleteBooking } = useBooking();
   const user = useSelector((state: any) => state.user);
   const getFile = (file: string) => {
@@ -127,9 +127,8 @@ export default function ListPengajuan({ result, setLoading }: any) {
         </>
       )}
       {
-        item.status !== "Menunggu Persetujuan" && (user.role != "Mahasiswa" && user.role != 'Dosen Karyawan') && (
+        item.status !== "Menunggu Persetujuan" && (user.role !== "Mahasiswa" || user.role !== 'Dosen') && (
           <>
-          
             <td className="text-center" colSpan={2}>
               <Link
                 to={"/peminjaman/detail/" + item.id}

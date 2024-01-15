@@ -26,7 +26,7 @@ export default function Sent() {
     generateButtons,
   } = usePagination("penyewaan", "", query);
   useEffect(() => {
-    document.title = 'Pengajuan Penyewaan - SIMOLA'
+    document.title = 'Pengajuan Peminjaman - SIMOLA'
     fetchData();
   }, [currentPage]);
 
@@ -47,7 +47,7 @@ export default function Sent() {
 
   return (
     <Home>
-      <TheBreadCrumb title="Penyewaan"  />
+      <TheBreadCrumb title="Peminjaman"  />
 
       <div className="card">
         <div className="card-body">
@@ -58,7 +58,7 @@ export default function Sent() {
                 role="alert"
               >
                 <i className="mdi mdi-alert-circle-outline label-icon"></i>
-                <strong>Info</strong> - Pengajuan penyewaan secara default diurutkan berdasarkan waktu pengajuan yang paling dekat dengan waktu saat ini. Tombol <strong>Lihat</strong> akan disable jika pengajuan tidak mengikut sertakan lampiran.
+                <strong>Info</strong> - Pengajuan peminjaman secara default diurutkan berdasarkan waktu pengajuan yang paling dekat dengan waktu saat ini. Tombol <strong>Lihat</strong> akan disable jika pengajuan tidak mengikut sertakan lampiran.
               </div>
             </div>
             <div className="col-md-3"></div>
@@ -84,7 +84,7 @@ export default function Sent() {
             <div className="col-md-5 mb-2"></div>
             <div className="col-md-4 mb-3">
               <Link
-                to={"/penyewaan/create"}
+                to={"/peminjaman/create"}
                 className="btn btn-success waves-effect waves-light float-end"
               >
                 <i className="bx bx-plus-circle"></i> Tambah Pengajuan
@@ -110,6 +110,13 @@ export default function Sent() {
                         className="text-center"
                       >
                         LAMPIRAN
+                      </th>
+                      <th
+                        rowSpan={2}
+                        style={{ width: "15%" }}
+                        className="text-center"
+                      >
+                        STATUS
                       </th>
                       <th
                         className="text-center"

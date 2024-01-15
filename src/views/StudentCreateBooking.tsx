@@ -1,16 +1,14 @@
 import TheBreadCrumb from "../components/TheBreadCrumb";
 import Home from "./Home";
 import Pagination from "../components/Pagination";
-import FormCar from "./FormCar";
+import { Link } from "react-router-dom";
 import usePagination from "../composables/UsePagination";
-import { useEffect, useState } from "react";
-import useCar from "../utils/useCar";
+import { useState, useEffect } from "react";
 import EmptyData from "../components/EmptyData";
-import ListCar from "../components/ListCars";
-import { convertToNominal } from "../helpers/event";
-export default function Room() {
+import ListPengajuan from "../components/ListPengajuan";
+
+export default function CreateBooking() {
   const [query, setQuery] = useState<string>("");
-  const { getCarById } = useCar();
   const {
     startNumber,
     result,
@@ -26,11 +24,10 @@ export default function Room() {
     goToPage,
     fetchData,
     generateButtons,
-  } = usePagination("mobil", "", query);
-
+  } = usePagination("penyewaan", "", query);
   useEffect(() => {
+    document.title = 'Pengajuan Peminjaman - SIMOLA'
     fetchData();
-    document.title = "Mobil - SIMOLA";
   }, [currentPage]);
 
   useEffect(() => {
@@ -39,22 +36,6 @@ export default function Room() {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [car, setCar] = useState<any>(null);
-  const [clearFormik, setClearFormik] = useState<boolean>(false);
-
-  const emitValue = async (id: string) => {
-    const response = await getCarById(id);
-    const result = {
-      id: response.data.id,
-      merk: response.data.merk,
-      kapasitas: convertToNominal(response.data.kapasitas.toString() || "0"),
-      plat_nomer:response.data.plat_nomer,
-      warna: response.data.warna,
-      status: parseInt(response.data.status),
-    }
-    setCar(result);
-  };
-
   useEffect(() => {
     if (loading === true) {
       fetchData();
@@ -62,9 +43,11 @@ export default function Room() {
     }
   }, [loading]);
 
+
+
   return (
     <Home>
-      <TheBreadCrumb title="Mobil"  />
+      <TheBreadCrumb title="Peminjaman"  />
 
       <div className="card">
         <div className="card-body">
@@ -75,7 +58,7 @@ export default function Room() {
                 role="alert"
               >
                 <i className="mdi mdi-alert-circle-outline label-icon"></i>
-                <strong>Info</strong> - Untuk menambahkan mobilb baru, klik tombol tambah. Pastikan data yang diinputkan sudah benar.
+                <strong>Info</strong> - Pengajuan peminjaman secara default diurutkan berdasarkan waktu pengajuan yang paling dekat dengan waktu saat ini. Tombol <strong>Lihat</strong> akan disable jika pengajuan tidak mengikut sertakan lampiran.
               </div>
             </div>
             <div className="col-md-3"></div>
@@ -93,44 +76,47 @@ export default function Room() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
-                <button
-                  className="btn btn-light"
-                  type="button"
-                  onClick={search}
-                >
+                <button className="btn btn-light" type="button" onClick={search}>
                   <i className="bx bx-search"></i>
                 </button>
               </div>
             </div>
             <div className="col-md-5 mb-2"></div>
             <div className="col-md-4 mb-3">
-              <button
-                data-bs-target="#dynamic-modal"
-                data-bs-toggle="modal"
+              <Link
+                to={"/peminjaman/create"}
                 className="btn btn-success waves-effect waves-light float-end"
-                onClick={() => {
-                  setClearFormik(true);
-                }}
               >
-                <i className="bx bx-plus-circle"></i> Tambah
-              </button>
+                <i className="bx bx-plus-circle"></i> Tambah Pengajuan
+              </Link>
             </div>
           </div>
           <div className="row">
             <div className="col-12">
-              <div className="table-responsive-sm">
-                <table className="table table-bordered table-hover table-striped font-size-13">
-                  <thead className="align-middle" style={{textTransform: 'uppercase'}}>
+              <div className="table-responsive">
+                <table className="table table-bordered table-hover font-size-13">
+                  <thead className="align-middle">
                     <tr>
+                    
+                      <th rowSpan={2} style={{ width: "18%" }}>
+                        PENANGGUNG JAWAB
+                      </th>
+                      <th colSpan={2} className="text-center">
+                        KETERANGAN
+                      </th>
                       <th
                         rowSpan={2}
-                        style={{ width: "5%" }}
+                        style={{ width: "7%" }}
                         className="text-center"
                       >
-                        No
+                        LAMPIRAN
                       </th>
-                      <th colSpan={5} className="text-center">
-                        Keterangan
+                      <th
+                        rowSpan={2}
+                        style={{ width: "15%" }}
+                        className="text-center"
+                      >
+                        STATUS
                       </th>
                       <th
                         className="text-center"
@@ -138,45 +124,22 @@ export default function Room() {
                         rowSpan={2}
                         colSpan={2}
                       >
-                        Aksi
+                        AKSI
                       </th>
                     </tr>
                     <tr>
-                      <th
-                        rowSpan={2}
-                        style={{ width: "10%" }}
-                        className="text-center"
-                      >
-                        Merk
-                      </th>
-                      <th rowSpan={2} style={{ width: "10%" }}>
-                        Kapasitas Penumpang
-                      </th>
-                      <th rowSpan={2} style={{ width: "15%" }}>
-                        Plat Nomor
-                      </th>
-                      <th rowSpan={2} style={{ width: "10%" }}>
-                        Warna
-                      </th>
-                      <th
-                        rowSpan={2}
-                        style={{ width: "10%" }}
-                        className="text-center"
-                      >
-                        Status
-                      </th>
+                      <th style={{width: '20%'}}>WAKTU</th>
+                      <th style={{width: '25%'}}>KEGIATAN</th>
                     </tr>
                   </thead>
                   <tbody className="align-middle">
                     {totalData !== 0 ? (
-                      <ListCar
+                      <ListPengajuan
                         result={result}
-                        startNumber={startNumber}
-                        emitValue={emitValue}
                         setLoading={setLoading}
                       />
                     ) : (
-                      EmptyData(7)
+                      EmptyData(9)
                     )}
                   </tbody>
                 </table>
@@ -200,11 +163,6 @@ export default function Room() {
               totalPage={totalPage}
             />
           )}
-          <FormCar
-            values={car}
-            clearFormik={clearFormik}
-            setLoading={setLoading}
-          ></FormCar>
         </div>
       </div>
     </Home>

@@ -49,7 +49,7 @@ export default function EditPenyewaan() {
 
   return (
     <Home>
-      <TheBreadCrumb title="Tambah Penyewaan"  />
+      <TheBreadCrumb title="Tambah Peminjaman"  />
       <BackButton></BackButton>
 
       <div className="row">
@@ -60,8 +60,8 @@ export default function EditPenyewaan() {
                 <div className="col-12">
                   <div className="alert alert-top-border alert-warning">
                     <p className="mb-3">
-                      Setelah menambahkan penyewaan, data yang disimpan akan
-                      ditampilkan pada halaman penyewaan dan dapat dilihat
+                      Setelah menambahkan peminjaman, data yang disimpan akan
+                      ditampilkan pada halaman peminjaman dan dapat dilihat
                       dimenu kalender.
                     </p>
                   </div>
@@ -145,7 +145,7 @@ export default function EditPenyewaan() {
                     value={formik.values.jenis_surat}
                     onChange={formik.handleChange}
                   >
-                    <option value="">Pilih Jenis Penyewaan</option>
+                    <option value="">Pilih Jenis Peminjaman</option>
                     {mobil.map((item: any, index: any) => (
                       <option value={`mobil-${item.merk}`} key={index}>
                         MOBIL - {item.merk}
