@@ -92,6 +92,9 @@ export default function Room() {
                   name="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  autoComplete="off"
+                  autoFocus
+
                 />
                 <button
                   className="btn btn-light"

@@ -22,6 +22,7 @@ export default function UseApi() {
       isDisableLayer();
       return data;
     } catch (error: any) {
+      isDisableLayer();
       Notify.error(error.message);
     }
   }

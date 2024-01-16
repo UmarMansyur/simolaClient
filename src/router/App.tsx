@@ -10,6 +10,7 @@ import Car from "../views/Car";
 import NotFound from "../views/NotFound";
 import CreateBooking from "../views/StudentCreateBooking";
 import Penyewaan from "../views/Penyewaan";
+import Detail from "../views/Detail";
 export default function App() {
   return (
     <>
@@ -44,6 +45,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Penyewaan />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/peminjaman/detail/:id"
+          element={
+            <ProtectedRoute>
+              <Detail />
             </ProtectedRoute>
           }
         />
