@@ -14,7 +14,7 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
 
   const schema = yup.object().shape({
     nama: yup.string().required().min(4).max(255),
-    kapasitas: yup.number().required().min(1).max(10000000),
+    kapasitas: yup.string().required().min(1).max(10000000),
     lokasi: yup.string().required().min(4).max(255),
     deskripsi: yup.string(),
     status: yup.boolean(),
@@ -28,7 +28,9 @@ export default function FormRoom({ values, clearFormik, setLoading }: Props) {
       deskripsi: "",
       status: true,
     },
-    onSubmit: async (values, actions) => {
+    onSubmit: async (values: any, actions) => {
+      values.kapasitas = convertToNominal(values.kapasitas.toString() || "0");
+      values.kapasitas = Number(values.kapasitas);
       await storeRoom(values);
       actions.resetForm();
       actions.setSubmitting(false);

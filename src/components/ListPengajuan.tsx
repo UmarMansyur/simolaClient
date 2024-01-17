@@ -4,7 +4,11 @@ import useBooking from "../utils/useBooking";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
-export default function ListPengajuan({ result, setLoading }: any) {
+export default function ListPengajuan({
+  result,
+  setLoading,
+  status = "sudah",
+}: any) {
   const { deleteBooking } = useBooking();
   const user = useSelector((state: any) => state.user);
   const getFile = (file: string) => {
@@ -67,7 +71,7 @@ export default function ListPengajuan({ result, setLoading }: any) {
       </td>
       <td style={{ textTransform: "uppercase" }}>
         <span className="text-muted fw-light font-size-11">
-          {perihal(item.type)}
+          {perihal(item.type)} {item.jenis_surat}
         </span>
         <br />
         <span className="fw-1">{item.kegiatan}</span>
@@ -104,44 +108,44 @@ export default function ListPengajuan({ result, setLoading }: any) {
           <span className="badge bg-success font-size-11">{item.status}</span>
         )}
       </td>
-      {item.status === "Menunggu Persetujuan" && (
+      {item.status === "Menunggu Persetujuan" &&
+        (user.role == "Mahasiswa" || user.role == "Dosen Karyawan") && (
+          <>
+            <td className="text-center">
+              <Link
+                to={"/peminjaman/update/" + item.id}
+                type="button"
+                className="btn btn-warning btn-sm waves-effect btn-label waves-light mx-2"
+              >
+                <i className="bx bx-pencil label-icon"></i> Ubah
+              </Link>
+            </td>
+            <td>
+              <button
+                type="button"
+                className="btn btn-danger btn-sm waves-effect btn-label waves-light"
+                onClick={() => destroy(item.id)}
+              >
+                <i className="bx bx-trash label-icon"></i> Hapus
+              </button>
+            </td>
+          </>
+        )}
+      {(item.status !== "Menunggu Persetujuan" ||
+        user.role == "Biro Administrasi Umum" ||
+        user.role == "Kepala Bagian Umum") && (
         <>
-          <td className="text-center">
+          <td className="text-center" colSpan={2}>
             <Link
-              to={"/peminjaman/update/" + item.id}
+              to={"/peminjaman/detail/" + item.id}
               type="button"
-              className="btn btn-warning btn-sm waves-effect btn-label waves-light mx-2"
+              className="btn btn-info btn-sm waves-effect btn-label waves-light mx-2"
             >
-              <i className="bx bx-pencil label-icon"></i> Ubah
+              <i className="bx bx-info-circle label-icon"></i> Detail
             </Link>
-          </td>
-          <td>
-            <button
-              type="button"
-              className="btn btn-danger btn-sm waves-effect btn-label waves-light"
-              onClick={() => destroy(item.id)}
-            >
-              <i className="bx bx-trash label-icon"></i> Hapus
-            </button>
           </td>
         </>
       )}
-      {
-        item.status !== "Menunggu Persetujuan" && (user.role != "Mahasiswa" && user.role != 'Dosen Karyawan') && (
-          <>
-          
-            <td className="text-center" colSpan={2}>
-              <Link
-                to={"/peminjaman/detail/" + item.id}
-                type="button"
-                className="btn btn-info btn-sm waves-effect btn-label waves-light mx-2"
-              >
-                <i className="bx bx-info-circle label-icon"></i> Detail
-              </Link>
-            </td>
-          </>
-        )
-      }
     </tr>
   ));
 }

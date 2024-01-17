@@ -26,6 +26,7 @@ export default function FormCar({ values, clearFormik, setLoading }: any) {
     validationSchema: schema,
     onSubmit: async (values:any, actions) => {
       values.kapasitas = convertToNominal(values.kapasitas.toString() || "0");
+      values.kapasitas = Number(values.kapasitas);
       await storeCar(values);
       actions.resetForm();
       actions.setSubmitting(false);

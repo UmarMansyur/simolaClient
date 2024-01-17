@@ -10,7 +10,7 @@ class CalendarPage {
   async loadData() {
     const colors = ['bg-primary', 'bg-danger', 'bg-warning', 'bg-success', 'bg-info'];
     document.getElementById('layar').style.display = '';
-    const response = await fetch('http://localhost:8080/penyewaan');
+    const response = await fetch('http://localhost:8080/penyewaan?status=Disetujui Kepala Bagian Umum');
     const data = await response.json();
     const result = data.data.data.map((item) => {
       return {

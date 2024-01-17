@@ -13,7 +13,7 @@ type userState = {
 type typeRoom = {
   id?: number,
   nama: string,
-  kapasitas: string,
+  kapasitas: number,
   lokasi: string,
   deskripsi: string,
   status?: boolean
@@ -23,7 +23,7 @@ type typeCar = {
   id?: number,
   merk: string,
   plat_nomer: string,
-  kapasitas: string,
+  kapasitas: number,
   status: boolean
 }
 

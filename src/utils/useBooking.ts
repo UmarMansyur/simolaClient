@@ -79,7 +79,8 @@ export default function useBooking() {
       tanggal_selesai: moment(v.tanggal_selesai).format('YYYY-MM-DD HH:mm:ss'),
       status: 'Menunggu Persetujuan',
       nomor_induk: user.id,
-      role: user.role,
+      type_user: user.role,
+      
     };
 
     

@@ -6,7 +6,6 @@ import useFlatPicker from "../utils/useFlatPicker";
 import useBooking from "../utils/useBooking";
 import UseApi from "../composables/UseApi";
 import Flatpickr from "react-flatpickr";
-import { useSelector } from "react-redux";
 
 export default function TambahPenyewaan() {
   const { options } = useFlatPicker();
@@ -48,10 +47,10 @@ export default function TambahPenyewaan() {
               <div className="row">
                 <div className="col-12">
                   <div className="alert alert-top-border alert-warning">
-                    <p className="mb-3">
+                    <p className="mb-0">
                       Setelah menambahkan peminjaman, data yang disimpan akan
                       ditampilkan pada halaman peminjaman dan dapat dilihat
-                      dimenu kalender.
+                      dimenu kalender. Harap segera melapor ke bagian terkait untuk mempercepat validasi peminjaman.
                     </p>
                   </div>
                 </div>
